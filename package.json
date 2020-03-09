@@ -7,6 +7,8 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
+    "@okta/jwt-verifier": "0.0.14",
+    "dot-env": "0.0.1",
     "express": "*",
     "puppeteer": "^2.1.1",
     "valid-url": "*"
