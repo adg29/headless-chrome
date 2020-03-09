@@ -7,7 +7,7 @@ const validUrl = require('valid-url');
 
 const OktaJwtVerifier = require('@okta/jwt-verifier');
 const clientid = process.env.OKTA_CLIENT_ID;
-const oktaDomain = `https://${OKTA_DOMAIN}`
+const oktaDomain = `https://${process.env.OKTA_DOMAIN}`
 
 const oktaJwtVerifier = new OktaJwtVerifier({
     issuer: `${oktaDomain}/oauth2/default`,
