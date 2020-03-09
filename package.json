@@ -11,6 +11,7 @@
     "dotenv": "^8.2.0",
     "express": "*",
     "puppeteer": "^2.1.1",
+    "puppeteer-sandbox": "github:adg29/puppeteer-sandbox",
     "valid-url": "*"
   },
   "devDependencies": {},
