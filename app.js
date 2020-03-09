@@ -41,6 +41,7 @@ app.get('/etsy/sentencer', verifyToken, (req, res) => {
                     email: process.env.ETSY_USERNAME,
                     password: process.env.ETSY_PASSWORD,
                 });
+                res.status(200).send(`SUBMITTED SENTENCER MESSAGE TO ${process.env.ETSY_MARKETING_USERNAME}...`)
             } catch (error) {
                 console.log(error)
                 res.sendStatus(500)
