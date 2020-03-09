@@ -8,6 +8,8 @@ const validUrl = require('valid-url');
 const OktaJwtVerifier = require('@okta/jwt-verifier');
 const oktaDomain = `https://${process.env.OKTA_DOMAIN}`
 
+const puppetSandbox = require('puppeteer-sandbox')
+
 const oktaJwtVerifier = new OktaJwtVerifier({
     issuer: `${oktaDomain}/oauth2/default`,
     clientId: process.env.OKTA_CLIENT_ID
@@ -26,7 +28,30 @@ app.get('/api/public', (req, res) => {
     res.status(200).send('Publicly accessible endpoint')
 })
 
-app.get('/', verifyToken, function(req, res) {
+app.get('/etsy/sentencer', verifyToken, (req, res) => {
+    oktaJwtVerifier.verifyAccessToken(req.token)
+        .then(async jwt => {
+            try {
+                await puppetSandbox.marketEtsyPerson({
+                    personUsername: process.env.ETSY_MARKETING_USERNAME,
+                    CONVO_SUBMIT_FLAG: Boolean(
+                    parseInt(process.env.ETSY_MARKETING_CONVO_SUBMIT_FLAG),
+                    ),
+                })({
+                    email: process.env.ETSY_USERNAME,
+                    password: process.env.ETSY_PASSWORD,
+                });
+            } catch (error) {
+                console.log(error)
+                res.sendStatus(500)
+            }
+        })
+        .catch(err => {
+            res.sendStatus(403)
+        })
+})
+
+app.get('/screenshot', verifyToken, function(req, res) {
     oktaJwtVerifier.verifyAccessToken(req.token)
         .then(jwt => {
             var urlToScreenshot = parseUrl(req.query.url);
